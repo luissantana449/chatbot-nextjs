@@ -2,6 +2,7 @@
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useSearchParams } from "next/navigation";
 
 import { v4 } from "uuid";
 
@@ -10,8 +11,8 @@ import { useRef, useState, ReactElement } from "react";
 import type { FormEvent } from "react";
 
 import { ChatMessageBubble } from "@/components/ChatMessageBubble";
-import { FaArrowUp } from "react-icons/fa6";
-import { FaInfoCircle } from "react-icons/fa";
+import { FaArrowUp, FaClipboard, FaUserShield } from "react-icons/fa6";
+import { FaBalanceScale, FaInfoCircle, FaPhoneAlt } from "react-icons/fa";
 import { ImSpinner8 } from "react-icons/im";
 import { TfiWrite } from "react-icons/tfi";
 import { IoDocumentTextOutline } from "react-icons/io5";
@@ -104,13 +105,22 @@ export function ChatWindow(props: IChatWindow) {
     inputRef.current?.focus();
     switch (option) {
       case 1:
-        return setInput("Resuma o texto: ");
+        return setInput("Analise o texto: ");
 
       case 2:
         return setInput("Conselhos sobre: ");
 
       case 3:
         return setInput("Ajude a escrever: ");
+
+      case 4:
+        return setInput("Resuma o texto: ");
+
+      case 5:
+        return setInput("Resuma o texto: ");
+      
+      case 6:
+        return setInput("Digite o texto para pesquisar jurisprudência: ");
 
       default:
         break;
@@ -165,6 +175,53 @@ export function ChatWindow(props: IChatWindow) {
     }
   };
 
+  const categorias = {
+    Juridico: [
+      {
+        nome: "Análise de casos jurídicos",
+        icone: <FaBalanceScale size={20} className="text-purple-500" />,
+        onClick: () => handleSetTextInput(1),
+      },
+      {
+        nome: "Pesquisa de jurisprudência",
+        icone: <FaUserShield size={20} className="text-blue-500" />,
+        onClick: () => handleSetTextInput(2),
+      },
+      {
+        nome: "Elaboração de documentos legais",
+        icone: <TfiWrite size={20} className="text-orange-500" />,
+        onClick: () => handleSetTextInput(6),
+      },
+    ],
+    Assistente: [
+      {
+        nome: "Resumir textos",
+        icone: <IoDocumentTextOutline size={20} className="text-purple-500" />,
+        onClick: () => handleSetTextInput(4),
+      },
+      {
+        nome: "Aconselhar",
+        icone: <HiOutlineAcademicCap size={20} className="text-blue-500" />,
+        onClick: () => handleSetTextInput(2),
+      },
+      {
+        nome: "Ajudar a escrever",
+        icone: <TfiWrite size={18} className="text-orange-500" />,
+        onClick: () => handleSetTextInput(3),
+      },
+    ],
+  };
+
+  const searchParams = useSearchParams();
+  const agentId = searchParams.get("agentId");
+
+  const categoriasFiltradas =
+    agentId === "IQ1DT2QQ62"
+      ? categorias["Juridico"]
+      : agentId === "UBFGGUXDFG"
+      ? categorias["Assistente"]
+      : [];
+
   return (
     <>
       {messages.length > 0 && (
@@ -190,30 +247,16 @@ export function ChatWindow(props: IChatWindow) {
             <>
               {emptyStateComponent}
               <div className="flex flex-wrap gap-5 justify-center items-center text-zinc-500 mb-8 text-sm">
-                <div
-                  onClick={() => handleSetTextInput(1)}
-                  className="p-2 border rounded-lg px-4 flex items-center gap-2 cursor-pointer hover:bg-white hover:text-zinc-900 hover:shadow-md shadow-sm  transition-all"
-                >
-                  <IoDocumentTextOutline
-                    size={20}
-                    className="text-purple-500"
-                  />
-                  Resumir textos
-                </div>
-                <div
-                  onClick={() => handleSetTextInput(2)}
-                  className="p-2 border rounded-lg px-4 flex items-center gap-2 cursor-pointer hover:bg-white hover:text-zinc-900 hover:shadow-md shadow-sm  transition-all"
-                >
-                  <HiOutlineAcademicCap size={20} className="text-blue-500" />
-                  Aconselhar
-                </div>
-                <div
-                  onClick={() => handleSetTextInput(3)}
-                  className="p-2 border rounded-lg px-4 flex items-center gap-2 cursor-pointer hover:bg-white hover:text-zinc-900 hover:shadow-md shadow-sm  transition-all"
-                >
-                  <TfiWrite size={18} className="text-orange-500" />
-                  Ajudar a escrever
-                </div>
+                {categoriasFiltradas.map((item, index) => (
+                  <div
+                    key={index}
+                    onClick={item.onClick}
+                    className="p-2 border rounded-lg px-4 flex items-center gap-2 cursor-pointer hover:bg-white hover:text-zinc-900 hover:shadow-md shadow-sm transition-all"
+                  >
+                    {item.icone}
+                    {item.nome}
+                  </div>
+                ))}
               </div>
             </>
           ) : (
