@@ -7,6 +7,6 @@ export const SERVICOS_IA: ServicosTypes[] = [
   },
   {
     label: "Assistente de Gabinete",
-    route: "/chat?agentId=IQ1DT2QQ62&aliasId=KAIAU0XZXI",
+    route: "/chat?agentId=IQ1DT2QQ62&aliasId=OFRZMGF6LY",
   },
 ];
