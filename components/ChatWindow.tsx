@@ -185,12 +185,12 @@ export function ChatWindow(props: IChatWindow) {
       {
         nome: "Pesquisa de jurisprudência",
         icone: <FaUserShield size={20} className="text-blue-500" />,
-        onClick: () => handleSetTextInput(2),
+        onClick: () => handleSetTextInput(6),
       },
       {
         nome: "Elaboração de documentos legais",
         icone: <TfiWrite size={20} className="text-orange-500" />,
-        onClick: () => handleSetTextInput(6),
+        onClick: () => handleSetTextInput(3),
       },
     ],
     Assistente: [
