@@ -1,4 +1,4 @@
-import { ChatWindow } from "@/components/ChatWindow";
+import { ChatWindow } from "@/components/ChatWindow/ChatWindow";
 import { HistoryChat, HistoryChatResponse } from "./types/type";
 import { Suspense } from "react";
 

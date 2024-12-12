@@ -69,8 +69,6 @@ export async function POST(req: NextRequest) {
     const body = await req.json();
     const sessionId = req.headers.get("x-uuid");
 
-    console.log("sessionIDDD", sessionId);
-
     // const returnIntermediateSteps = body.show_intermediate_steps;
     const messages = (body.messages ?? [])
       .filter(

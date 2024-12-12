@@ -2,11 +2,11 @@ import { ServicosTypes } from "./types";
 
 export const SERVICOS_IA: ServicosTypes[] = [
   {
-    label: "Assistente Geral",
-    route: "/chat?agentId=UBFGGUXDFG&aliasId=51XVWS54NP",
+    label: "Transcrição de áudio/vídeo",
+    route: "/transcricoes",
   },
   {
-    label: "Assistente de Gabinete",
-    route: "/chat?agentId=IQ1DT2QQ62&aliasId=OFRZMGF6LY",
+    label: "chat",
+    route: "/chat",
   },
 ];

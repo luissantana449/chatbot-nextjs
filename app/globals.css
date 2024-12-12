@@ -9,14 +9,13 @@ body {
 
 body input,
 body textarea {
-  color: black;
-  border: none; /* Remove borda padrão */
+  color: black;  
   outline: none; /* Remove contorno padrão */
 }
 
 body input:focus,
 body textarea:focus {
-  border: none; /* Remove borda ao focar */
+  
   outline: none; /* Remove contorno ao focar */
 }
 p {

@@ -11,8 +11,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#27633F',
-        
+        primary: '#27633F',        
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
