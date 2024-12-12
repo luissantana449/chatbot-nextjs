@@ -173,7 +173,7 @@ export function ChatWindow(props: IChatWindow) {
       <div className="flex h-full bg-slate-100">
         {messages.length >= 0 && (
           <div
-            className={`flex w-2/12 flex-col p-4 border-r border shadow-md transition-all`}
+            className={`flex w-3/12 flex-col p-4 border-r border shadow-md transition-all`}
           >
             <div className="flex gap-2">
               <button
