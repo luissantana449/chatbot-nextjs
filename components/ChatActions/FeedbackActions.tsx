@@ -58,7 +58,7 @@ export default function FeedbackActions({ message }: FeedbackActionsInterface) {
           <Tooltip
             icon={<IoCopyOutline />}
             description="Copiar"
-            iconColor="hover:bg-zinc-300 p-1 rounded-md cursor-pointer transition-colors "
+            iconColor="hover:bg-zinc-300 p-1 rounded-md cursor-pointer transition-colors"
           />
         </button>
 
@@ -76,14 +76,15 @@ export default function FeedbackActions({ message }: FeedbackActionsInterface) {
             iconColor="hover:bg-zinc-300 p-1 rounded-md cursor-pointer transition-colors"
           />
         </button>
-        <button disabled={like !== false} className="disabled:text-zinc-400">
+        <button disabled={like !== false} className="disabled:text-zinc-300">
           {
             <Tooltip
               icon={<FiRefreshCw />}
+              isActive={like === false}
               description="Alterar modelo"
               iconColor={`${
-                !like && "hover:bg-zinc-300"
-              } p-1 rounded-md cursor-pointer transition-colors`}
+                like === false && "hover:bg-zinc-300 cursor-pointer"
+              } p-1 rounded-md transition-colors`}
             />
           }
         </button>
@@ -96,7 +97,10 @@ export default function FeedbackActions({ message }: FeedbackActionsInterface) {
           <div className="flex justify-end gap-2 text-zinc-800">
             <button
               className="px-4 py-2 bg-green-500 text-white rounded-md hover:bg-primary transition-colors text-sm"
-              onClick={() => alert("Action executed!")}
+              onClick={() => {
+                handleDisLike();
+                closeModal();
+              }}
             >
               Enviar
             </button>

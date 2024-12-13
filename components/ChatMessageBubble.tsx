@@ -30,7 +30,11 @@ export function ChatMessageBubble(props: {
           className={`${colorClassName} text-sm rounded px-4 py-2 leading-relaxed flex`}
         >
           <div className="whitespace-pre-wrap flex flex-col">
-            <span>{props.message.content.replace(/^"(.*)"$/, "$1")}</span>
+            <span>
+              {props.message.content
+                .replace(/^"(.*)"$/, "$1")
+                .replace(/\/(.*?)\//g, "$1")}
+            </span>
           </div>
         </div>
         {props.message.role !== "user" && (

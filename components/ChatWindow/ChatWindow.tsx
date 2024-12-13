@@ -12,7 +12,7 @@ import { FaArrowUp } from "react-icons/fa6";
 import { FaInfoCircle } from "react-icons/fa";
 import { ImSpinner8 } from "react-icons/im";
 import { FiEdit } from "react-icons/fi";
-import { BiFoodMenu, BiMenu } from "react-icons/bi";
+import { BiFoodMenu } from "react-icons/bi";
 
 import loadingChat from "../loading-chat.json";
 import dynamic from "next/dynamic";
@@ -28,6 +28,8 @@ import { useChatWindowForm } from "./useChatWindow";
 import { IChatWindow } from "./types";
 import OptionSelector from "../ChatActions/OptionsSelector";
 import { OPTIONS } from "../ChatActions/constants";
+import Tooltip from "../Tooltip";
+import { groupByRelativeDate, HISTORY_MOCK } from "../ChatHistory/constants";
 
 export function ChatWindow(props: IChatWindow) {
   const {
@@ -109,11 +111,7 @@ export function ChatWindow(props: IChatWindow) {
     }
   };
 
-  const [chatItems, setChatItems] = useState<ChatItem[]>([
-    { id: "1", title: "Histórico de Chat 1" },
-    { id: "2", title: "Histórico de Chat 2" },
-    { id: "3", title: "Histórico de Chat 3" },
-  ]);
+  const [chatItems, setChatItems] = useState<ChatItem[]>();
 
   const handleItemSelect = (id: string) => {
     console.log(`Selecionado item com ID: ${id}`);
@@ -163,48 +161,51 @@ export function ChatWindow(props: IChatWindow) {
     }
   }
 
+  const groupedChats = groupByRelativeDate(HISTORY_MOCK);
+
   const toggleSidebar = () => {
     setIsExpanded(!isExpanded);
-    console.log(isExpanded);
   };
 
   return (
     <>
-      <div className="flex h-full bg-slate-100">
+      <div className="flex h-[92.5%] bg-slate-100">
         {messages.length >= 0 && (
           <div
-            className={`flex w-6/12 flex-col p-4 border-r border shadow-md transition-all`}
+            className={`${
+              isExpanded
+                ? "w-52 border-r border shadow-md overflow-auto"
+                : "w-32"
+            } flex flex-col p-4 transition-all `}
           >
-            <div className="flex gap-2">
-              <button
-                onClick={toggleSidebar}
-                className="flex gap-2 cursor-pointer transition-all hover:bg-zinc-200 rounded-md p-2"
-              >
-                <BiFoodMenu
-                  size={20}
-                  aria-label="Novo chat"
-                  title="Novo chat"
+            <div
+              className={`${
+                !isExpanded && "gap-10"
+              } flex gap-12 text-xl transition-all ease-in-out mx-2 bg-black`}
+            >
+              <button onClick={toggleSidebar}>
+                <Tooltip
+                  icon={<BiFoodMenu />}
+                  description="Histórico"
+                  iconColor="hover:bg-zinc-300 p-2 rounded-md cursor-pointer transition-colors"
                 />
-                <span className="text-sm">
-                  {!isExpanded ? "Exibir Histórico" : "Ocultar Histórico"}
-                </span>
               </button>
-              <button
-                onClick={handleNewChat}
-                className=" flex gap-2 cursor-pointer transition-all hover:bg-zinc-200 rounded-md p-2"
-              >
-                <FiEdit size={20} aria-label="Novo chat" title="Novo chat" />
-                <span className="text-sm">Novo chat</span>
+              <button onClick={handleNewChat}>
+                <Tooltip
+                  icon={<FiEdit />}
+                  description="Novo Chat"
+                  iconColor="hover:bg-zinc-300 p-2 rounded-md cursor-pointer transition-colors "
+                />
               </button>
             </div>
             {
               <div
                 className={`${
-                  isExpanded ? "opacity-100 block" : "opacity-0"
+                  isExpanded ? "opacity-100 delay-75" : "opacity-0 collapse"
                 }  opacity-0 transition-opacity ease-in-out`}
               >
                 <ChatHistoryList
-                  items={chatItems}
+                  items={HISTORY_MOCK}
                   onItemSelect={handleItemSelect}
                 />
               </div>
@@ -255,13 +256,18 @@ export function ChatWindow(props: IChatWindow) {
             )}
           </div>
 
-          <form onSubmit={sendMessage} className="flex w-full flex-col">
+          <form
+            onSubmit={sendMessage}
+            className={`${
+              messages.length === 0 && "lg:w-1/2"
+            } flex w-full flex-col lg:w-full relative`}
+          >
             <div className="flex items-center justify-center">
               <input
                 ref={inputRef}
-                className={` ${
+                className={`${
                   messages.length === 0 && "lg:w-1/2"
-                } w-full p-4 pr-14 rounded-xl shadow-md placeholder:text-sm`}
+                } w-full p-4 pr-14 rounded-xl shadow-md placeholder:text-sm `}
                 value={input}
                 placeholder={
                   placeholder ?? "Vamos conversar! O que você quer saber?"
@@ -271,7 +277,9 @@ export function ChatWindow(props: IChatWindow) {
 
               <button
                 type="submit"
-                className="absolute right-5 sm:relative sm:right-12 bg-zinc-500 rounded-full w-10 h-10 text-white flex items-center justify-center hover:bg-opacity-70 transition-all"
+                className={`${
+                  messages.length === 0 && "sm:relative sm:right-14"
+                } absolute right-4 bg-zinc-500 rounded-full w-10 h-10 text-white flex items-center justify-center hover:bg-opacity-70 transition-all`}
               >
                 <div className={`${chatEndpointIsLoading ? "" : "hidden"} `}>
                   <ImSpinner8 className="w-4 h-4 text-white animate-spin dark:text-white fill-zinc-200" />

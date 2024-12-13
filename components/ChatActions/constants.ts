@@ -7,7 +7,7 @@ export const FEEDBACK_MSGS = [
   "Falta de empenho",
   "Não seguiu as instruções por completo",
   "Resposta incorreta",
-  " Não deveria ter usado memória",
+  "Não deveria ter usado memória",
 ];
 
 export const OPTIONS = [
